@@ -41,32 +41,17 @@
 
 			/* Navbar links */
 			#navbar a {
-			 float: left;
-			 display: block;
 			 color: #fff;
 			 padding: 10px;
-			 text-decoration: none;
 			 font-family: Lucida, sans-serif;
-			 font-size: 1.5em
+			 font-size: 1.5rem;
+			 text-decoration: none; /* otherwise they're underlined */
+		   text-align: center;
 			}
 
 			p {
 				font-family: Arial, Helvetica, sans-serif;
-				font-size: 1.5em;
-			}
-
-
-
-			/* The sticky class is added to the navbar with JS when it reaches its scroll position */
-			.sticky {
-			 position: fixed;
-			 top: 0;
-			 width: 100%
-			}
-
-			/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-			.sticky + .content {
-			 padding-top: 60px;
+				font-size: 1.5rem;
 			}
 
 			.leaflet-control-layers{
@@ -98,7 +83,9 @@
 				background-color: #FFF;
 			  width: 184px;
 			  height: 200px;
-}
+				}
+
+
 		</style>
 
 
@@ -106,36 +93,16 @@
 	<body>
 
 		<div id="navbar">
-		 <a href="#home">About</a>
-		 <a href="">Logo</a>
-		 <a href="#news">Kategorien</a>
+		 <a style="flex-grow:1;" href="#home">About</a>
+		 <a style="flex-grow:3; " href="">Logo</a>
+		 <a style="flex-grow:1; justify-content:flex-end" href="#news">Kategorien</a>
 		</div>
 
 		<div id='map' ></div>
 
 		<script>
-			// When the user scrolls the page, execute myFunction
-			window.onscroll = function() {myFunction()};
-
-			// Get the navbar
-			var navbar = document.getElementById("navbar");
-
-			// Get the offset position of the navbar
-			var sticky = navbar.offsetTop;
-
-			// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-			function myFunction() {
-			if (window.pageYOffset >= sticky) {
-					navbar.classList.add("sticky")
-				} else {
-					navbar.classList.remove("sticky");
-				}
-			}
-		</script>
-
-		<script>
 			var parks = L.layerGroup();
-			var foody = L.layerGroup();
+			var food = L.layerGroup();
 			var eis = L.layerGroup();
 			var architecture = L.layerGroup();
 			var bakery = L.layerGroup();
@@ -179,7 +146,7 @@
 				center: [52.515281, 13.366413],
 				zoom: 12,
 				//nur diese Layer werden per default angezeigt
-				layers: [grayscale, eis, foody, parks, architecture, bakery]
+				layers: [grayscale, eis, food, parks, architecture, bakery]
 			});
 
 			//Reihenfolge der Layer
@@ -190,7 +157,7 @@
 
 			var overlays = {
 				"Parks": parks,
-				"Essen": foody,
+				"Essen": food,
 				"Eis": eis,
 				"Architektur": architecture,
 				"Bäckerei": bakery,
@@ -199,15 +166,15 @@
 			// Geolocation - https://github.com/domoritz/leaflet-locatecontrol
 			L.control.locate({
        locateOptions: {
-               maxZoom: 16
+               maxZoom: 15
 			}}).addTo(map);
 
 
 			L.marker([52.476625, 13.418233],{icon: greenIcon}).bindPopup('Tempelhofer Feld').addTo(parks)
 			L.marker([52.477259, 13.421318],{icon: yellowIcon}).bindPopup('Mos Eisley.').addTo(eis),
-			L.marker([52.483679, 13.436558]).bindPopup('Al Pasha').addTo(foody),
+			L.marker([52.483679, 13.436558]).bindPopup('Al Pasha').addTo(food),
 			L.marker([52.500660, 13.400799]).bindPopup('St. Agnes').addTo(architecture),
-			L.marker([52.491416, 13.416808]),{icon: redIcon}.bindPopup('Albatross').addTo(bakery),
+			L.marker([52.491416, 13.416808],{icon: redIcon}).bindPopup('Albatross').addTo(bakery),
 
 
 			L.control.layers(baseLayers, overlays).addTo(map);
